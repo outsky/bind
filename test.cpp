@@ -68,6 +68,7 @@ void member_function_test() {
     bind(&X::g2, &x, 1, 2)();
     bind(&X::g2, x, 1, 2)();
     */
+
     TEST( x.hash == 23558 );
 }
 

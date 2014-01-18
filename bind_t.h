@@ -2,94 +2,38 @@
 #define BIND_T_H
 
 #include "arg_list.h"
+#include "fn_wrapper.h"
 
-// for non-member functions
 template <typename R, typename F, typename L>
 class bind_t {
     public:
-        bind_t(F f, L l) : fn(f), al(l) {}
+        bind_t(F _f, L _l) : f(_f), l(_l) {}
 
-        // 0 argument
         R operator()() {
-            return fn(al.a1, al.a2);
+            return l(type<R>(), f);
         }
 
-        // 1 arguments
         template <typename A1>
         R operator()(const A1& a1) {
-            arg_list1<A1> al1(a1);
-            return fn(al1[al.a1], al1[al.a2]);
+            arg_list1<A1> l1(a1);
+            return l(type<R>(), f, l1);
         }
 
-        // 2 arguments
         template <typename A1, typename A2>
         R operator()(A1 a1, A2 a2) {
-            return fn(a1, a2);
+            arg_list2<A1, A2> l2(a1, a2);
+            return l(type<R>(), f, l2);
+        }
+
+        template <typename A1, typename A2, typename A3>
+        R operator()(A1 a1, A2 a2, A3 a3) {
+            arg_list3<A1, A2, A3> l3(a1, a2, a3);
+            return l(type<R>(), f, l3);
         }
 
     private:
-        F fn;   // binded function
-        L al;   // arguments list
-};
-
-// for member functions(ref)
-template <typename R, typename C, typename F, typename L>
-class bind_mf_ref_t {
-    public:
-        bind_mf_ref_t(F f, C& c, L l) : fn(f), al(l), obj(c) {}
-
-        // 0 argument
-        R operator()() {
-            return obj.fn(al.a1, al.a2);
-        }
-
-        // 1 arguments
-        template <typename A1>
-        R operator()(const A1& a1) {
-            arg_list1<A1> al1(a1);
-            return obj.fn(al1[al.a1], al1[al.a2]);
-        }
-
-        // 2 arguments
-        template <typename A1, typename A2>
-        R operator()(A1 a1, A2 a2) {
-            return obj.fn(a1, a2);
-        }
-
-    private:
-        F fn;   // binded function
-        L al;   // arguments list
-        C& obj; // class object
-};
-
-// for member functions(pointer)
-template <typename R, typename C, typename F, typename L>
-class bind_mf_pt_t {
-    public:
-        bind_mf_pt_t(F f, C* c, L l) : fn(f), al(l), obj(c) {}
-
-        // 0 argument
-        R operator()() {
-            return (obj->*fn)(al.a1, al.a2);
-        }
-
-        // 1 arguments
-        template <typename A1>
-        R operator()(const A1& a1) {
-            arg_list1<A1> al1(a1);
-            return (obj->*fn)(al1[al.a1], al1[al.a2]);
-        }
-
-        // 2 arguments
-        template <typename A1, typename A2>
-        R operator()(A1 a1, A2 a2) {
-            return (obj->*fn)(a1, a2);
-        }
-
-    private:
-        F fn;   // binded function
-        L al;   // arguments list
-        C* obj; // class object
+        F f;
+        L l;
 };
 
 #endif

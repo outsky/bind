@@ -8,5 +8,6 @@ class placeholder {
 
 placeholder<1> _1;
 placeholder<2> _2;
+placeholder<3> _3;
 
 #endif
