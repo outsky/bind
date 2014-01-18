@@ -64,10 +64,8 @@ void member_function_test() {
 
     bind(&X::f2, &x, 1, 2)();
 
-    /*
     bind(&X::g2, &x, 1, 2)();
     bind(&X::g2, x, 1, 2)();
-    */
 
     TEST( x.hash == 23558 );
 }
@@ -75,12 +73,10 @@ void member_function_test() {
 void member_function_void_test() {
     V v;
 
-//    bind(&V::f2, &v, 1, 2)();
+    bind(&V::f2, &v, 1, 2)();
 
-    /*
     bind(&V::g2, &v, 1, 2)();
     bind(&V::g2, v, 1, 2)();
-    */
 
     TEST( v.hash == 23558 );
 }

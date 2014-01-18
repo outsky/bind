@@ -24,12 +24,27 @@ class member_fn {
         member_fn(F _f) : f(_f) {}
 
         R operator()(C* c) { return (c->*f)(); }
+        R operator()(const C* c) { return (c->*f)(); }
+        R operator()(C& c) { return (c.*f)(); }
+        R operator()(const C& c) { return (c.*f)(); }
 
         template <typename A1>
         R operator()(C* c, A1 a1) { return (c->*f)(a1); }
+        template <typename A1>
+        R operator()(const C* c, A1 a1) { return (c->*f)(a1); }
+        template <typename A1>
+        R operator()(C& c, A1 a1) { return (c.*f)(a1); }
+        template <typename A1>
+        R operator()(const C& c, A1 a1) { return (c.*f)(a1); }
 
         template <typename A1, typename A2>
         R operator()(C* c, A1 a1, A2 a2) { return (c->*f)(a1, a2); }
+        template <typename A1, typename A2>
+        R operator()(const C* c, A1 a1, A2 a2) { return (c->*f)(a1, a2); }
+        template <typename A1, typename A2>
+        R operator()(C& c, A1 a1, A2 a2) { return (c.*f)(a1, a2); }
+        template <typename A1, typename A2>
+        R operator()(const C& c, A1 a1, A2 a2) { return (c.*f)(a1, a2); }
 
     private:
         F f;
