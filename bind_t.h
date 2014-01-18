@@ -10,7 +10,8 @@ class bind_t {
         bind_t(F _f, L _l) : f(_f), l(_l) {}
 
         R operator()() {
-            return l(type<R>(), f);
+            arg_list0 l0;
+            return l(type<R>(), f, l0);
         }
 
         template <typename A1>
