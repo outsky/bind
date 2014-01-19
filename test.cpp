@@ -9,7 +9,7 @@ inline void test_failed_impl(char const * expr, char const * file, int line, cha
       << function << "'" << std::endl;
     ++errors;
 }
-#define TEST(expr) ((expr)? (void)0: test_failed_impl(#expr, __FILE__, __LINE__, __PRETTY_FUNCTION__))
+#define BOOST_TEST(expr) ((expr)? (void)0: test_failed_impl(#expr, __FILE__, __LINE__, __PRETTY_FUNCTION__))
 inline int report_errors()
 {
     if( errors == 0 )
@@ -132,27 +132,27 @@ void function_test()
 {
     int const i = 1;
 
-    //TEST( bind(f_0)(i) == 17041L );
-    TEST( bind(f_1, _1)(i) == 1L );
-    TEST( bind(f_2, _1, 2)(i) == 21L );
-    TEST( bind(f_3, _1, 2, 3)(i) == 321L );
-    TEST( bind(f_4, _1, 2, 3, 4)(i) == 4321L );
-    TEST( bind(f_5, _1, 2, 3, 4, 5)(i) == 54321L );
-    TEST( bind(f_6, _1, 2, 3, 4, 5, 6)(i) == 654321L );
-    TEST( bind(f_7, _1, 2, 3, 4, 5, 6, 7)(i) == 7654321L );
-    TEST( bind(f_8, _1, 2, 3, 4, 5, 6, 7, 8)(i) == 87654321L );
-    TEST( bind(f_9, _1, 2, 3, 4, 5, 6, 7, 8, 9)(i) == 987654321L );
+    //BOOST_TEST( bind(f_0)(i) == 17041L );
+    BOOST_TEST( bind(f_1, _1)(i) == 1L );
+    BOOST_TEST( bind(f_2, _1, 2)(i) == 21L );
+    BOOST_TEST( bind(f_3, _1, 2, 3)(i) == 321L );
+    BOOST_TEST( bind(f_4, _1, 2, 3, 4)(i) == 4321L );
+    BOOST_TEST( bind(f_5, _1, 2, 3, 4, 5)(i) == 54321L );
+    BOOST_TEST( bind(f_6, _1, 2, 3, 4, 5, 6)(i) == 654321L );
+    BOOST_TEST( bind(f_7, _1, 2, 3, 4, 5, 6, 7)(i) == 7654321L );
+    BOOST_TEST( bind(f_8, _1, 2, 3, 4, 5, 6, 7, 8)(i) == 87654321L );
+    BOOST_TEST( bind(f_9, _1, 2, 3, 4, 5, 6, 7, 8, 9)(i) == 987654321L );
 
-    //TEST( (bind(fv_0)(i), (global_result == 17041L)) );
-    TEST( (bind(fv_1, _1)(i), (global_result == 1L)) );
-    TEST( (bind(fv_2, _1, 2)(i), (global_result == 21L)) );
-    TEST( (bind(fv_3, _1, 2, 3)(i), (global_result == 321L)) );
-    TEST( (bind(fv_4, _1, 2, 3, 4)(i), (global_result == 4321L)) );
-    TEST( (bind(fv_5, _1, 2, 3, 4, 5)(i), (global_result == 54321L)) );
-    TEST( (bind(fv_6, _1, 2, 3, 4, 5, 6)(i), (global_result == 654321L)) );
-    TEST( (bind(fv_7, _1, 2, 3, 4, 5, 6, 7)(i), (global_result == 7654321L)) );
-    TEST( (bind(fv_8, _1, 2, 3, 4, 5, 6, 7, 8)(i), (global_result == 87654321L)) );
-    TEST( (bind(fv_9, _1, 2, 3, 4, 5, 6, 7, 8, 9)(i), (global_result == 987654321L)) );
+    //BOOST_TEST( (bind(fv_0)(i), (global_result == 17041L)) );
+    BOOST_TEST( (bind(fv_1, _1)(i), (global_result == 1L)) );
+    BOOST_TEST( (bind(fv_2, _1, 2)(i), (global_result == 21L)) );
+    BOOST_TEST( (bind(fv_3, _1, 2, 3)(i), (global_result == 321L)) );
+    BOOST_TEST( (bind(fv_4, _1, 2, 3, 4)(i), (global_result == 4321L)) );
+    BOOST_TEST( (bind(fv_5, _1, 2, 3, 4, 5)(i), (global_result == 54321L)) );
+    BOOST_TEST( (bind(fv_6, _1, 2, 3, 4, 5, 6)(i), (global_result == 654321L)) );
+    BOOST_TEST( (bind(fv_7, _1, 2, 3, 4, 5, 6, 7)(i), (global_result == 7654321L)) );
+    BOOST_TEST( (bind(fv_8, _1, 2, 3, 4, 5, 6, 7, 8)(i), (global_result == 87654321L)) );
+    BOOST_TEST( (bind(fv_9, _1, 2, 3, 4, 5, 6, 7, 8, 9)(i), (global_result == 987654321L)) );
 }
 
 struct X
@@ -230,67 +230,85 @@ void member_function_test()
     // 0
 
     bind(&X::f0, &x)();
+    bind(&X::f0, x)();
 
     bind(&X::g0, &x)();
+    bind(&X::g0, x)();
     bind(&X::g0, x)();
 
     // 1
 
     bind(&X::f1, &x, 1)();
+    bind(&X::f1, x, 1)();
 
     bind(&X::g1, &x, 1)();
+    bind(&X::g1, x, 1)();
     bind(&X::g1, x, 1)();
 
     // 2
 
     bind(&X::f2, &x, 1, 2)();
+    bind(&X::f2, x, 1, 2)();
 
     bind(&X::g2, &x, 1, 2)();
+    bind(&X::g2, x, 1, 2)();
     bind(&X::g2, x, 1, 2)();
 
     // 3
 
     bind(&X::f3, &x, 1, 2, 3)();
+    bind(&X::f3, x, 1, 2, 3)();
 
     bind(&X::g3, &x, 1, 2, 3)();
+    bind(&X::g3, x, 1, 2, 3)();
     bind(&X::g3, x, 1, 2, 3)();
 
     // 4
 
     bind(&X::f4, &x, 1, 2, 3, 4)();
+    bind(&X::f4, x, 1, 2, 3, 4)();
 
     bind(&X::g4, &x, 1, 2, 3, 4)();
+    bind(&X::g4, x, 1, 2, 3, 4)();
     bind(&X::g4, x, 1, 2, 3, 4)();
 
     // 5
 
     bind(&X::f5, &x, 1, 2, 3, 4, 5)();
+    bind(&X::f5, x, 1, 2, 3, 4, 5)();
 
     bind(&X::g5, &x, 1, 2, 3, 4, 5)();
+    bind(&X::g5, x, 1, 2, 3, 4, 5)();
     bind(&X::g5, x, 1, 2, 3, 4, 5)();
 
     // 6
 
     bind(&X::f6, &x, 1, 2, 3, 4, 5, 6)();
+    bind(&X::f6, x, 1, 2, 3, 4, 5, 6)();
 
     bind(&X::g6, &x, 1, 2, 3, 4, 5, 6)();
+    bind(&X::g6, x, 1, 2, 3, 4, 5, 6)();
     bind(&X::g6, x, 1, 2, 3, 4, 5, 6)();
 
     // 7
 
     bind(&X::f7, &x, 1, 2, 3, 4, 5, 6, 7)();
+    bind(&X::f7, x, 1, 2, 3, 4, 5, 6, 7)();
 
     bind(&X::g7, &x, 1, 2, 3, 4, 5, 6, 7)();
+    bind(&X::g7, x, 1, 2, 3, 4, 5, 6, 7)();
     bind(&X::g7, x, 1, 2, 3, 4, 5, 6, 7)();
 
     // 8
 
     bind(&X::f8, &x, 1, 2, 3, 4, 5, 6, 7, 8)();
+    bind(&X::f8, x, 1, 2, 3, 4, 5, 6, 7, 8)();
 
     bind(&X::g8, &x, 1, 2, 3, 4, 5, 6, 7, 8)();
     bind(&X::g8, x, 1, 2, 3, 4, 5, 6, 7, 8)();
+    bind(&X::g8, x, 1, 2, 3, 4, 5, 6, 7, 8)();
 
-    TEST( x.hash == 23558 );
+    BOOST_TEST( x.hash == 23558 );
 }
 
 void member_function_void_test()
@@ -300,67 +318,85 @@ void member_function_void_test()
     // 0
 
     bind(&V::f0, &v)();
+    bind(&V::f0, v)();
 
     bind(&V::g0, &v)();
+    bind(&V::g0, v)();
     bind(&V::g0, v)();
 
     // 1
 
     bind(&V::f1, &v, 1)();
+    bind(&V::f1, v, 1)();
 
     bind(&V::g1, &v, 1)();
+    bind(&V::g1, v, 1)();
     bind(&V::g1, v, 1)();
 
     // 2
 
     bind(&V::f2, &v, 1, 2)();
+    bind(&V::f2, (v), 1, 2)();
 
     bind(&V::g2, &v, 1, 2)();
     bind(&V::g2, v, 1, 2)();
+    bind(&V::g2, (v), 1, 2)();
 
     // 3
 
     bind(&V::f3, &v, 1, 2, 3)();
+    bind(&V::f3, (v), 1, 2, 3)();
 
     bind(&V::g3, &v, 1, 2, 3)();
     bind(&V::g3, v, 1, 2, 3)();
+    bind(&V::g3, (v), 1, 2, 3)();
 
     // 4
 
     bind(&V::f4, &v, 1, 2, 3, 4)();
+    bind(&V::f4, (v), 1, 2, 3, 4)();
 
     bind(&V::g4, &v, 1, 2, 3, 4)();
     bind(&V::g4, v, 1, 2, 3, 4)();
+    bind(&V::g4, (v), 1, 2, 3, 4)();
 
     // 5
 
     bind(&V::f5, &v, 1, 2, 3, 4, 5)();
+    bind(&V::f5, (v), 1, 2, 3, 4, 5)();
 
     bind(&V::g5, &v, 1, 2, 3, 4, 5)();
     bind(&V::g5, v, 1, 2, 3, 4, 5)();
+    bind(&V::g5, (v), 1, 2, 3, 4, 5)();
 
     // 6
 
     bind(&V::f6, &v, 1, 2, 3, 4, 5, 6)();
+    bind(&V::f6, (v), 1, 2, 3, 4, 5, 6)();
 
     bind(&V::g6, &v, 1, 2, 3, 4, 5, 6)();
     bind(&V::g6, v, 1, 2, 3, 4, 5, 6)();
+    bind(&V::g6, (v), 1, 2, 3, 4, 5, 6)();
 
     // 7
 
     bind(&V::f7, &v, 1, 2, 3, 4, 5, 6, 7)();
+    bind(&V::f7, (v), 1, 2, 3, 4, 5, 6, 7)();
 
     bind(&V::g7, &v, 1, 2, 3, 4, 5, 6, 7)();
     bind(&V::g7, v, 1, 2, 3, 4, 5, 6, 7)();
+    bind(&V::g7, (v), 1, 2, 3, 4, 5, 6, 7)();
 
     // 8
 
     bind(&V::f8, &v, 1, 2, 3, 4, 5, 6, 7, 8)();
+    bind(&V::f8, (v), 1, 2, 3, 4, 5, 6, 7, 8)();
 
     bind(&V::g8, &v, 1, 2, 3, 4, 5, 6, 7, 8)();
     bind(&V::g8, v, 1, 2, 3, 4, 5, 6, 7, 8)();
+    bind(&V::g8, (v), 1, 2, 3, 4, 5, 6, 7, 8)();
 
-    TEST( v.hash == 23558 );
+    BOOST_TEST( v.hash == 23558 );
 }
 
 void nested_bind_test()
@@ -369,17 +405,17 @@ void nested_bind_test()
     int const x = 1;
     int const y = 2;
 
-    TEST( bind(f_1, bind(f_1, _1))(x) == 1L );
-    TEST( bind(f_1, bind(f_2, _1, _2))(x, y) == 21L );
-    TEST( bind(f_2, bind(f_1, _1), bind(f_1, _1))(x) == 11L );
-    TEST( bind(f_2, bind(f_1, _1), bind(f_1, _2))(x, y) == 21L );
-    TEST( bind(f_1, bind(f_0))() == 17041L );
+    BOOST_TEST( bind(f_1, bind(f_1, _1))(x) == 1L );
+    BOOST_TEST( bind(f_1, bind(f_2, _1, _2))(x, y) == 21L );
+    BOOST_TEST( bind(f_2, bind(f_1, _1), bind(f_1, _1))(x) == 11L );
+    BOOST_TEST( bind(f_2, bind(f_1, _1), bind(f_1, _2))(x, y) == 21L );
+    BOOST_TEST( bind(f_1, bind(f_0))() == 17041L );
 
-    TEST( (bind(fv_1, bind(f_1, _1))(x), (global_result == 1L)) );
-    TEST( (bind(fv_1, bind(f_2, _1, _2))(x, y), (global_result == 21L)) );
-    TEST( (bind(fv_2, bind(f_1, _1), bind(f_1, _1))(x), (global_result == 11L)) );
-    TEST( (bind(fv_2, bind(f_1, _1), bind(f_1, _2))(x, y), (global_result == 21L)) );
-    TEST( (bind(fv_1, bind(f_0))(), (global_result == 17041L)) );
+    BOOST_TEST( (bind(fv_1, bind(f_1, _1))(x), (global_result == 1L)) );
+    BOOST_TEST( (bind(fv_1, bind(f_2, _1, _2))(x, y), (global_result == 21L)) );
+    BOOST_TEST( (bind(fv_2, bind(f_1, _1), bind(f_1, _1))(x), (global_result == 11L)) );
+    BOOST_TEST( (bind(fv_2, bind(f_1, _1), bind(f_1, _2))(x, y), (global_result == 21L)) );
+    BOOST_TEST( (bind(fv_1, bind(f_0))(), (global_result == 17041L)) );
     */
 }
 
@@ -389,7 +425,7 @@ int main()
 
     member_function_test();
     member_function_void_test();
-    //nested_bind_test();
+//    nested_bind_test();
 
     return report_errors();
 }
