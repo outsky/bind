@@ -10,6 +10,9 @@ class arg_list0 {
     public:
         template <typename T>
         T& operator[](non_placeholder<T>& v) { return v.get(); }
+
+        template <typename R, typename F, typename L>
+        R operator()(type<R>, F f, L l) { return f(); }
 };
 
 template <typename A1>

@@ -132,7 +132,7 @@ void function_test()
 {
     int const i = 1;
 
-    //BOOST_TEST( bind(f_0)(i) == 17041L );
+    BOOST_TEST( bind(f_0)(i) == 17041L );
     BOOST_TEST( bind(f_1, _1)(i) == 1L );
     BOOST_TEST( bind(f_2, _1, 2)(i) == 21L );
     BOOST_TEST( bind(f_3, _1, 2, 3)(i) == 321L );
@@ -143,7 +143,7 @@ void function_test()
     BOOST_TEST( bind(f_8, _1, 2, 3, 4, 5, 6, 7, 8)(i) == 87654321L );
     BOOST_TEST( bind(f_9, _1, 2, 3, 4, 5, 6, 7, 8, 9)(i) == 987654321L );
 
-    //BOOST_TEST( (bind(fv_0)(i), (global_result == 17041L)) );
+    BOOST_TEST( (bind(fv_0)(i), (global_result == 17041L)) );
     BOOST_TEST( (bind(fv_1, _1)(i), (global_result == 1L)) );
     BOOST_TEST( (bind(fv_2, _1, 2)(i), (global_result == 21L)) );
     BOOST_TEST( (bind(fv_3, _1, 2, 3)(i), (global_result == 321L)) );
@@ -399,33 +399,12 @@ void member_function_void_test()
     BOOST_TEST( v.hash == 23558 );
 }
 
-void nested_bind_test()
-{
-    /*
-    int const x = 1;
-    int const y = 2;
-
-    BOOST_TEST( bind(f_1, bind(f_1, _1))(x) == 1L );
-    BOOST_TEST( bind(f_1, bind(f_2, _1, _2))(x, y) == 21L );
-    BOOST_TEST( bind(f_2, bind(f_1, _1), bind(f_1, _1))(x) == 11L );
-    BOOST_TEST( bind(f_2, bind(f_1, _1), bind(f_1, _2))(x, y) == 21L );
-    BOOST_TEST( bind(f_1, bind(f_0))() == 17041L );
-
-    BOOST_TEST( (bind(fv_1, bind(f_1, _1))(x), (global_result == 1L)) );
-    BOOST_TEST( (bind(fv_1, bind(f_2, _1, _2))(x, y), (global_result == 21L)) );
-    BOOST_TEST( (bind(fv_2, bind(f_1, _1), bind(f_1, _1))(x), (global_result == 11L)) );
-    BOOST_TEST( (bind(fv_2, bind(f_1, _1), bind(f_1, _2))(x, y), (global_result == 21L)) );
-    BOOST_TEST( (bind(fv_1, bind(f_0))(), (global_result == 17041L)) );
-    */
-}
-
 int main()
 {
     function_test();
 
     member_function_test();
     member_function_void_test();
-//    nested_bind_test();
 
     return report_errors();
 }
